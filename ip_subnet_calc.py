@@ -165,7 +165,9 @@ def calc_subnet_mask_from_ip_and_network_address_dec(ip_address, network_address
 	dec_subnet_mask = bin_address_to_dec(subnet_mask_bin)
 	return dec_subnet_mask
 
+
+# test for given IP address and network address
 ip="192.168.100.172"
 net="192.168.100.160"
 subnet_mask = calc_subnet_mask_from_ip_and_network_address_dec(ip, net)
-print (subnet_mask)
+print ("Subnet mask: %s" % subnet_mask)
