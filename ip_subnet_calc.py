@@ -127,6 +127,7 @@ def calc_subnet_mask_from_bin_addresses_return_bin_class_C(ip_address, network_a
 		diff = 8 - curr_len
 		block8bit_xor = block8bit_xor + '0' * diff  # X
 		subnet_mask.append(block8bit_xor)  # append X -> ['11111111', '11111111', '11111111', 'bbbbbbbb']
+		# print("Subnet mask bin: %s" % subnet_mask)
 		return subnet_mask
 
 	else:
@@ -145,29 +146,25 @@ def bin_address_to_dec(bin_address):
 		raise ValueError("IPv4 addresses have 4 blocks each with 8 bit.")
 
 
-def bin_subnetmask_to_dec(bin_net_mask):
-	block = bin_net_mask[-1]
-	dec = int(block, 2)
-	pass
-# ip_address = "210.1.1.100"
-# mask = "255.255.255.224"
-# calculate_subnet_from_ip_and_mask(ip_address, mask)
-# address_to_bin("255.255.248.0")
 
-
-def calc_subnet_mask_from_ip_and_network_address_dec(ip_address, network_address):
+def calc_subnet_mask_from_ip_and_network_or_broadc_address_dec(ip_address, network_address):
 	"""
-	IP address and network address given in decimal representation
+	IP address and network address or broad address given in decimal representation is used to calculate
+	the subnet mask of the IP address.
 	"""
 	ip_bin = address_to_bin(ip_address)
+	# print("IP address: %s" % ip_bin)
 	net_bin = address_to_bin(network_address)
+	# print("Network address: %s" % net_bin)
 	subnet_mask_bin = calc_subnet_mask_from_bin_addresses_return_bin_class_C(ip_bin, net_bin)
 	dec_subnet_mask = bin_address_to_dec(subnet_mask_bin)
 	return dec_subnet_mask
 
 
 # test for given IP address and network address
-ip="192.168.100.172"
-net="192.168.100.160"
-subnet_mask = calc_subnet_mask_from_ip_and_network_address_dec(ip, net)
+ip="192.168.100.130"
+net="192.168.100.128"
+broad="192.168.100.159"
+subnet_mask = calc_subnet_mask_from_ip_and_network_or_broadc_address_dec(ip, broad)
 print ("Subnet mask: %s" % subnet_mask)
+
