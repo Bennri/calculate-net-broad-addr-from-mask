@@ -170,7 +170,7 @@ def calc_subnet_mask_from_ip_and_network_or_broadc_address_dec(ip_address, netwo
 	return dec_subnet_mask
 
 
-# test for given IP address and network address
+# testing
 ip1="192.168.100.195"
 subnet_mask1="255.255.255.240"
 subnet = calculate_subnet_from_ip_and_mask(ip1, subnet_mask1)
