@@ -61,9 +61,17 @@ def get_corresponding_subnet(ip_address, mask, n, m, subs, delta, amount_hosts):
 		broadcast_address = i
 
 		if network_address < host < broadcast_address:
+			ip_blocks = ip_address.split('.')
+			base = ""
+			for i in range(len(ip_blocks)-1):
+				base = base + ip_blocks[i] + "."
+			network_address = base + str(network_address)
+			broadcast_address = base + str(broadcast_address)
 			subnet_range_of_host.append(network_address)
 			subnet_range_of_host.append(broadcast_address)
+			break
 		i = i + 1
+
 	return subnet_range_of_host
 
 
@@ -74,13 +82,14 @@ def calculate_subnet_from_ip_and_mask(ip_address, mask):
 	ip address and subnet mask given, calculate the subnet in which the ip address
 	appears
 	"""
-	n = get_number_of_bits_for_subnetting(mask)
-	m = get_number_of_bits_left_for_host(tb, n)
-	subs = get_number_of_subnets(n)
-	delta = get_value_last_bit_used_for_sub_mask(m)
-	h = get_number_of_hosts_per_subnet(m)
-	r = get_corresponding_subnet(ip_address, mask, n, m, subs, delta, h)
-	return r
+	n = get_number_of_bits_for_subnetting(mask)      # amount of bits used for subnetting
+	m = get_number_of_bits_left_for_host(tb, n)      # amount of bits left for hosts
+	subs = get_number_of_subnets(n)                  # amount of subnets
+	delta = get_value_last_bit_used_for_sub_mask(m)  # last value used for subnet mask
+	h = get_number_of_hosts_per_subnet(m)            # amount of hosts per subnet
+	# range of subnet of given IP address defined by network and broadcast address
+	subnet = get_corresponding_subnet(ip_address, mask, n, m, subs, delta, h) 
+	return subnet
 
 
 
@@ -162,9 +171,12 @@ def calc_subnet_mask_from_ip_and_network_or_broadc_address_dec(ip_address, netwo
 
 
 # test for given IP address and network address
-ip="192.168.100.130"
-net="192.168.100.128"
-broad="192.168.100.159"
-subnet_mask = calc_subnet_mask_from_ip_and_network_or_broadc_address_dec(ip, broad)
-print ("Subnet mask: %s" % subnet_mask)
+ip1="192.168.100.195"
+subnet_mask1="255.255.255.240"
+subnet = calculate_subnet_from_ip_and_mask(ip1, subnet_mask1)
+print("IP: %s in subnet: %s" % (ip1, subnet))
+ip2="192.168.100.172"
+net="192.168.100.160"
+subnet_mask = calc_subnet_mask_from_ip_and_network_or_broadc_address_dec(ip2, net)
+print ("IP address %s and network address %s with subnet mask: %s" % (ip2, net, subnet_mask))
 
